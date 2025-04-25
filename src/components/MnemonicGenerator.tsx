@@ -22,7 +22,7 @@ export function MnemonicGenerator() {
 
       {mnemonic && (
         <>
-          <div style={{ marginTop: 10, wordBreak: "break-word" }}>{mnemonic}</div>
+          <div className="mt-10">{mnemonic}</div>
           <SolanaWallet mnemonic={mnemonic} />
         </>
       )}
@@ -35,38 +35,26 @@ function SolanaWallet({ mnemonic }: { mnemonic: string }) {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [publicKeys, setPublicKeys] = useState<PublicKey[]>([]);
 
-  // mnemonic -> seed (buffer format) -> hexSeed (hex format) -> 
-
   const solanaHandler = async () => {
     const seed = await mnemonicToSeed(mnemonic); // Buffer
-    console.log("Seed :", seed);
-    console.log("hexSeed  :", seed.toString("hex"));
-  
+    
     const path = `m/44'/501'/${currentIndex}'/0'`;
     const derived = derivePath(path, seed.toString());
-    const derivedSeed = derived.key;
-  
-    console.log("path :", path);
-    console.log("derived seed :", derivedSeed);
-    console.log(" derived hex seed :", Buffer.from(derivedSeed).toString("hex"));
-  
+    const derivedSeed = derived.key; // this is my private key
+
+    // generating the public key
     const secretKey = nacl.sign.keyPair.fromSeed(derivedSeed).secretKey;
-    const keypair = Keypair.fromSecretKey(secretKey);
-  
-    console.log("Public Key:", keypair.publicKey.toBase58());
-  
+    const keypair = Keypair.fromSecretKey(secretKey); // public key
+
     setPublicKeys((prev) => [...prev, keypair.publicKey]);
-    setCurrentIndex((prev) => prev + 1);
+    setCurrentIndex(currentIndex + 1);  
   };
   
-  
-
-
   return (
-    <div style={{ marginTop: 20 }}>
+    <div className="mt-10">
       <button onClick={solanaHandler}>Add Wallet</button>
 
-      <div style={{ marginTop: 10 }}>
+      <div className="mt-10">
         {publicKeys.map((pk, idx) => (
           <div key={idx}>{pk.toBase58()}</div>
         ))}
@@ -77,23 +65,32 @@ function SolanaWallet({ mnemonic }: { mnemonic: string }) {
 
 
 function EthWallet({mnemonic}: {mnemonic : string}){
-    const [ currentIndex, setCurrentIndex ] = useState(0);
-    const [ addresses, setAddresses ] = useState([]);
+    const [ currentIndex, setCurrentIndex ] = useState<number>(0);
+    const [ addresses, setAddresses ] = useState<string[]>([]);
 
 
     async function handleEth(){
-        const seed = await mnemonicToSeed(mnemonic);
+        const seed = await mnemonicToSeed(mnemonic); // buffer
+
         const derivationPath = `m/44'/60'/${currentIndex}/0'`;
-        const hdNode = HDNodeWallet.fromSeed(seed);
-        const child = hdNode.derivePath(derivationPath);
-        const privateKey = child.privateKey;
-        const wallet = new Wallet(privateKey);
+        const hdNode = HDNodeWallet.fromSeed(seed.toString("hex")); // links the account to the seed
+
+        const child = hdNode.derivePath(derivationPath); // 
+
+        const wallet = new Wallet(child.privateKey); // public key
+
+        // inheritance -> child ko pata hai ki wallet ke pas kya values hai par wallet ko kuch ni pata child ke baarein me
 
         setCurrentIndex(currentIndex + 1);
-        setAddresses([...addresses, wallet.address])
+        setAddresses((prev) => [...prev, wallet.address])
     }
 
-    return <div>
+    return <div className="mt-10">
         <button onClick={handleEth}>Add ETH wallet</button>
+        <div className="mt-10">
+        {addresses.map((addr, idx) => (
+          <div key={idx}>{addr}</div>
+        ))}
+      </div>
     </div>
 }
