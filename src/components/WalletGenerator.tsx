@@ -69,56 +69,71 @@ const WalletGenerator = () => {
   return (
     <div className="relative min-h-screen py-8 z-10 overflow-hidden">
 
-        <div className="max-w-5xl mx-auto px-4">
+        <div className="max-w-5xl mx-auto px-15">
             <div className="mb-10 text-center">
-                <p className="text-gray-400 text-2xl tracking-wider font-sans">A Wallet Generator</p>
+                <p className="text-gray-400 text-2xl tracking-wider font-sans">CREATE YOUR OWN WALLET</p>
             </div>
 
             {/* Mnemonic Section */}
-            <div className="bg-gray-900 rounded-2xl shadow-xl border border-gray-800 p-8 mb-10 transition-all duration-300 hover:shadow-2xl hover:border-gray-700">
-                <div className="flex flex-col md:flex-row md:items-center justify-between mb-8">
+            <div className="bg-[#000000] rounded-2xl shadow-xl p-8 px-10 mb-10 transition-all duration-300 hover:shadow-2xl">
+                <div className="flex flex-col md:flex-row items-center justify-between">
                 <h2 className="text-2xl font-semibold text-[#e4e4e4] mb-4 md:mb-0">Recovery Phrase</h2>
                 <div className="flex gap-3">
                     {!mnemonic ? (
-                    
-                    <GeneratePhraseButton text="Generate Phrase" onClick={createMnemonic} />
+                        <GeneratePhraseButton text="Generate Phrase" onClick={createMnemonic} />
                     ) : (
-                    <>
-                        <GeneratePhraseButton onClick={() => setShowMnemonic(!showMnemonic)} text={showMnemonic ? "Hide Phrase" : "Show Phrase"} /> 
-                        
-                        <CopyMnemonicButton onClick={() => handleCopy(mnemonic)} copyLogicBefore={copiedText === mnemonic ? "opacity-0" : ""} copyLogicAfter={copiedText === mnemonic ? "opacity-100" : "opacity-0"} textBefore="Copy" textAfter="Copied" />
-
-                        <DeleteMnemonicButton text="Delete" onClick={handleDeleteMnemonic} />
-                    </>
-                )}
+                        <GeneratePhraseButton
+                        onClick={() => setShowMnemonic(!showMnemonic)}
+                        text={showMnemonic ? "Hide Phrase" : "Show Phrase"}
+                        />
+                    )}
                 </div>
+
             </div>
 
             {mnemonic && showMnemonic && (
-                <div className="mt-6 border border-gray-800 rounded-xl p-6 bg-gray-950 transition-all duration-300 hover:border-gray-700">
-                    <p className="mb-4 text-sm text-gray-400">
-                        Remember this phrase to recover your wallet
-                    </p>
+                <div className="mt-6 border border-gray-800 rounded-xl p-6 bg-black transition-all duration-300 hover:border-gray-700">
 
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                        {mnemonic.split(" ").map((word, index) => (
-                        <div 
-                            key={index} 
-                            className="py-2.5 px-3 bg-gray-800 border border-gray-700 rounded-lg shadow-sm transition-all duration-200 hover:bg-gray-750 hover:border-gray-600"
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mb-6">
+                    {mnemonic.split(" ").map((word, index) => (
+                        <div
+                        key={index}
+                        className="py-2.5 px-3 bg-[#1d1d1d] shadow-sm transition-all duration-200 hover:bg-gray-750"
                         >
                             <span className="text-gray-400 text-sm mr-2">{index + 1}.</span>
-                            <span className="font-medium text-white">{word}</span>
+                            <span className="font-medium text-[#e4e4e4]">{word}</span>
                         </div>
-                        ))}
+                    ))}
+                    </div>
+
+                    {/* mnemonic phrase display box */}
+                    <div className="flex justify-between">
+                        <p className="flex justify-center items-center text-sm text-red-500">
+                        Never share this mnemonic phrase with anyone!
+                        </p>
+                        <div className="flex ">
+                            <CopyMnemonicButton
+                                onClick={() => handleCopy(mnemonic)}
+                                copyLogicBefore={copiedText === mnemonic ? "opacity-0" : ""}
+                                copyLogicAfter={copiedText === mnemonic ? "opacity-100" : "opacity-0"}
+                                textBefore="Copy"
+                                textAfter="Copied"
+                            />
+                            <DeleteMnemonicButton
+                                text="Delete"
+                                onClick={handleDeleteMnemonic}
+                            />
+                        </div>
                     </div>
 
                 </div>
-            )}
+                )}
+
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* solana wallets */}
-                <div className="bg-gray-900 rounded-2xl shadow-xl border border-gray-800 p-8 transition-all duration-300 hover:shadow-2xl hover:border-gray-700">
+                <div className="bg-[#151515] rounded-2xl shadow-xl border border-[#191919] p-8 transition-all duration-250 hover:shadow-2xl hover:border-[#1e1e1e]">
                     <div className="flex items-center justify-between mb-8">
                         <div>
                             <h2 className="text-2xl font-semibold text-[#e4e4e4]">Solana Wallets</h2>
@@ -162,22 +177,22 @@ const WalletGenerator = () => {
                 )}
 
                 {solanaWallets.length === 0 && mnemonic && (
-                    <div className="text-center py-12 text-gray-400 border border-gray-800 rounded-xl bg-gray-950">
-                        <p>No Solana wallets created yet.</p>
-                        <p className="text-sm mt-2 text-gray-500">Click "Create Wallet" to get started.</p>
+                    <div className="text-center py-12 text-gray-400  rounded-xl bg-[#434343]">
+                        <p className="text-[#b0b0b0]">No Solana wallets created yet.</p>
+                        <p className="text-[15px] mt-1 text-[#000]">Click "Create Wallet" to get started.</p>
                     </div>
                 )}
 
                 {!mnemonic && (
-                    <div className="text-center py-12 text-gray-400 border border-gray-800 rounded-xl bg-gray-950">
+                    <div className="text-center py-12 text-gray-400 border border-[#626262] rounded-xl bg-[#393939]">
                         <p>Generate a recovery phrase first</p>
-                        <p className="text-sm mt-2 text-gray-500">to create Solana wallets.</p>
+                        <p className="text-md mt-1 text-black">to create Solana wallets.</p>
                     </div>
                 )}
                 </div>
 
                 {/* ethereum wallets */}
-                <div className="bg-gray-900 rounded-2xl shadow-xl border border-gray-800 p-8 transition-all duration-300 hover:shadow-2xl hover:border-gray-700">
+                <div className="bg-[#151515] rounded-2xl shadow-xl border border-[#191919] p-8 transition-all duration-250 hover:shadow-2xl hover:border-[#343434]">
                     <div className="flex items-center justify-between mb-8">
                         <div>
                             <h2 className="text-2xl font-semibold text-[#e4e4e4]">Ethereum Wallets</h2>
@@ -222,23 +237,23 @@ const WalletGenerator = () => {
                     )}
 
                     {ethereumWallets.length === 0 && mnemonic && (
-                    <div className="text-center py-12 text-gray-400 border border-gray-800 rounded-xl bg-gray-950">
+                    <div className="text-center py-12 text-gray-400  rounded-xl bg-[#434343]">
                         <p>No Ethereum wallets created yet.</p>
                         <p className="text-sm mt-2 text-gray-500">Click "Create Wallet" to get started.</p>
                     </div>
                     )}
 
                     {!mnemonic && (
-                    <div className="text-center py-12 text-gray-400 border border-gray-800 rounded-xl bg-gray-950">
+                    <div className="text-center py-12 text-gray-400 border border-[#626262] rounded-xl bg-[#393939]">
                         <p>Generate a recovery phrase first</p>
-                        <p className="text-sm mt-2 text-gray-500">to create Ethereum wallets.</p>
+                        <p className="text-md mt-1 text-black">to create Ethereum wallets.</p>
                     </div>
                     )}
                 </div>
             </div>
 
-            <div className="mt-10 text-center text-sm text-gray-500 border-t border-gray-800 pt-8">
-                <p className="mt-2 text-[22px] text-[#e4e4e4] hover:text-[#b7b7b7] transition-all transform duration-300">Designed and Developed by <Link href="https://github.com/piyush-rj" className="text-[#e4e4e4]">Piyush</Link> </p>
+            <div className="mt-10 text-center text-sm border-t border-gray-800 pt-8">
+                <p className="mt-2 text-[18px] text-[#b7b7b7] transition-all transform duration-300">Designed and Developed by <Link href="https://github.com/piyush-rj" className="hover:text-[#e4e4e4] transition-all transform duration-300">Piyush</Link> </p>
             </div>
         </div>
     </div>

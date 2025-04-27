@@ -11,7 +11,7 @@ export function CreateSolWalletButton({ text, onClick, disabled, logic }: Create
     return <button
     onClick={onClick}
     disabled={disabled}
-    className={`cursor-pointer px-5 py-2.5 bg-purple-700 hover:bg-purple-600 text-white font-medium rounded-lg transition-all duration-300 shadow-md hover:shadow-purple-900/50 ${logic}`}
+    className={`cursor-pointer px-5 py-2.5 bg-[#e3e3e3] hover:bg-[#c8c8c8] text-black font-medium rounded-lg transition-all duration-300 shadow-md hover:shadow-purple-900/50 ${logic}`}
 >
     {text}
 </button>
