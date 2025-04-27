@@ -1,20 +1,17 @@
 "use client"
 import { useCallback, useEffect, useState } from "react";
-import { WalletGenerator } from "../lib/WalletGenerator";
-
+import { WalletGenerator, SolanaWallet, EthereumWallet } from "../lib/WalletGenerator";
 
 export function useWalletGenerator() {
     const [walletGenerator, setWalletGenerator] = useState<WalletGenerator | null>(null)
     const [mnemonic, setMnemonic] = useState<string>("")
-    const [solanaWallets, setSolanaWallets] = useState<{ publicKey: string, privateKey: string }[]>([])
-    const [ethereumWallets, setEthereumWallets] = useState<{ privateKey: string, address: string }[]>([])
+    const [solanaWallets, setSolanaWallets] = useState<SolanaWallet[]>([])
+    const [ethereumWallets, setEthereumWallets] = useState<EthereumWallet[]>([])
 
     useEffect(() => {
         const init = async () => {
             const instance = new WalletGenerator();
             setWalletGenerator(instance)
-            // await instance.init()
-            // setMnemonic(instance.getMnemonic())            
         };
         init();
     }, [])
@@ -26,7 +23,6 @@ export function useWalletGenerator() {
         await walletGenerator.init()
         setMnemonic(walletGenerator.getMnemonic())
     }, [walletGenerator, mnemonic])
-
 
     const createSolanaWallet = () => {
         if(!walletGenerator) return;
@@ -49,8 +45,10 @@ export function useWalletGenerator() {
         createMnemonic,
         createSolanaWallet,
         createEthereumWallet,
+        setSolanaWallets,
+        setEthereumWallets,
+        setMnemonic,
         solanaWallets,
         ethereumWallets
     }
-    
 }

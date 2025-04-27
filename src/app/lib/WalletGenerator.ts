@@ -6,6 +6,19 @@ import { Wallet } from "ethers";
 import { HDNodeWallet } from "ethers";
 import nacl from "tweetnacl";
 
+export interface SolanaWallet {
+    publicKey: string;
+    privateKey: string;
+    createdAt: string;
+}
+
+export interface EthereumWallet {
+    address: string;
+    privateKey: string;
+    createdAt: string;
+}
+
+
 export class WalletGenerator {
 
     private mnemonic: string = ""
@@ -26,6 +39,11 @@ export class WalletGenerator {
         this.seed = await mnemonicToSeed(this.mnemonic)
     }
 
+    private formatDate() : string {
+        const now = new Date();
+        return now.toLocaleString();
+    }
+
     // solana wallet logic
     public solanaWallet(){
         const path = `m/44'/501'/${this.solanaIndex}'/0'`;
@@ -35,9 +53,10 @@ export class WalletGenerator {
         const secretKey = nacl.sign.keyPair.fromSeed(derivedKey).secretKey;
         const keypair = Keypair.fromSecretKey(secretKey); // public key
 
-        const currentSolanaWallet = {
+        const currentSolanaWallet : SolanaWallet = {
             publicKey: keypair.publicKey.toString(),
-            privateKey: Buffer.from(secretKey).toString("hex")
+            privateKey: Buffer.from(secretKey).toString("hex"),
+            createdAt: this.formatDate()
         }
 
         this.solanaKeyPair.set(Buffer.from(derivedKey).toString("hex"), keypair)
@@ -54,11 +73,11 @@ export class WalletGenerator {
         const hdNode = HDNodeWallet.fromSeed(this.seed);
         const child = hdNode.derivePath(path);
         const wallet = new Wallet(child.privateKey);
-        const publicKey = wallet.signingKey.publicKey;
 
-        const currentEthWallet = {
+        const currentEthWallet : EthereumWallet = {
             privateKey: wallet.privateKey,
-            address: wallet.address
+            address: wallet.address,
+            createdAt: this.formatDate()
         }
 
         this.ethereumKeyPair.set(wallet.address, wallet.privateKey);
