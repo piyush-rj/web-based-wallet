@@ -2,7 +2,7 @@
 
 interface DeleteButtonProps {
     text: string,
-    onClick: () => void,
+    onClick: (index: number) => void,
 }
 
 export function DeleteMnemonicButton({ text, onClick }: DeleteButtonProps){
