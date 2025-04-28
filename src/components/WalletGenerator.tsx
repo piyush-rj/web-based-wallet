@@ -8,21 +8,14 @@ import { DeleteMnemonicButton } from "./ui/DeleteMnemonicButton";
 import { CreateSolWalletButton } from "./ui/CreateSolanaWalletButton";
 import Link from "next/link";
 import { RevealWalletsButton } from "./ui/RevealWalletsButton";
+import { ReactNode } from "react";
 
-// Define the wallet interfaces to match what the hook provides
-interface SolanaWallet {
-    publicKey: string;
-    privateKey: string;
-    createdAt: string;
-}
+type AnimatedSectionProps = {
+    children: ReactNode;
+    delay?: number;
+    className?: string;
+  };
 
-interface EthereumWallet {
-    address: string;
-    privateKey: string;
-    createdAt: string;
-}
-
-// New Loading Animation Component
 const LoadingAnimation = () => {
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-90 transition-opacity duration-500">
@@ -118,26 +111,28 @@ const ScrambleText = () => {
         </p>
     );
 };
-
-const AnimatedSection = ({ children, delay = 0, className = "" }) => {
+  
+  const AnimatedSection = ({ children, delay = 0, className = "" }: AnimatedSectionProps) => {
     const [isVisible, setIsVisible] = useState(false);
-    
+  
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsVisible(true);
-        }, delay);
-        
-        return () => clearTimeout(timer);
+      const timer = setTimeout(() => {
+        setIsVisible(true);
+      }, delay);
+  
+      return () => clearTimeout(timer);
     }, [delay]);
-    
+  
     return (
-        <div 
-            className={`transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} ${className}`}
-        >
-            {children}
-        </div>
+      <div
+        className={`transition-all duration-700 ease-out ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+        } ${className}`}
+      >
+        {children}
+      </div>
     );
-};
+  };
 
 const WalletGenerator = () => {
     const {
@@ -324,7 +319,7 @@ const WalletGenerator = () => {
                             {solanaWallets.length === 0 && mnemonic && (
                                 <div className="text-center py-12 text-gray-400 rounded-xl bg-[#434343]">
                                     <p className="text-[#b0b0b0]">No Solana wallets created yet.</p>
-                                    <p className="text-[15px] mt-1 text-[#56707c]">Click "Create Wallet" to get started.</p>
+                                    <p className="text-[15px] mt-1 text-[#56707c]">Click {"Create Wallet"} to get started.</p>
                                 </div>
                             )}
 
@@ -391,7 +386,7 @@ const WalletGenerator = () => {
                             {ethereumWallets.length === 0 && mnemonic && (
                                 <div className="text-center py-12 text-gray-400 rounded-xl bg-[#434343]">
                                     <p>No Ethereum wallets created yet.</p>
-                                    <p className="text-[15px] mt-2 text-[#56707c]">Click "Create Wallet" to get started.</p>
+                                    <p className="text-[15px] mt-2 text-[#56707c]">Click {"Create Wallet"} to get started.</p>
                                 </div>
                             )}
 

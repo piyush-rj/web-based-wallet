@@ -1,9 +1,10 @@
 "use client"
 
 interface DeleteButtonProps {
-    text: string,
-    onClick: (index: number) => void,
+    text: string;
+    onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
+  
 
 export function DeleteMnemonicButton({ text, onClick }: DeleteButtonProps){
     return <button

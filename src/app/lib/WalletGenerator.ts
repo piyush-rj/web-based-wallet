@@ -1,6 +1,5 @@
 import { Keypair } from "@solana/web3.js";
 import { generateMnemonic, mnemonicToSeed } from "bip39"
-import { publicDecrypt } from "crypto";
 import { derivePath } from "ed25519-hd-key";
 import { Wallet } from "ethers";
 import { HDNodeWallet } from "ethers";
