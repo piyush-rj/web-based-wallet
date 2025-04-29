@@ -17,7 +17,6 @@ export interface EthereumWallet {
     createdAt: string;
 }
 
-
 export class WalletGenerator {
 
     private mnemonic: string = ""

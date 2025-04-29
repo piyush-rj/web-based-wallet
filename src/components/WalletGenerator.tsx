@@ -20,7 +20,7 @@ const LoadingAnimation = () => {
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-90 transition-opacity duration-500">
             <div className="flex flex-col items-center">
-                <div className="relative w-24 h-24">
+                <div className="relative w-20 h-20 sm:w-24 sm:h-24">
                     {/* Outer ring */}
                     <div className="absolute inset-0 border-4 border-t-[#6e9e75] border-r-[#6394d4] border-b-[#6287b6] border-l-[#709375] rounded-full animate-spin"></div>
                     
@@ -31,10 +31,10 @@ const LoadingAnimation = () => {
                     {/* Center pulse */}
                     <div className="absolute inset-8 bg-white rounded-full animate-pulse"></div>
                 </div>
-                <div className="mt-6 text-xl font-bold text-white tracking-wider">
+                <div className="mt-6 text-lg sm:text-xl font-bold text-white tracking-wider">
                     <span className="animate-pulse">LOADING NexWallet</span>
                 </div>
-                <div className="mt-2 text-sm text-gray-400">
+                <div className="mt-2 text-xs sm:text-sm text-gray-400">
                     Initializing secure environment...
                 </div>
             </div>
@@ -106,7 +106,7 @@ const ScrambleText = () => {
     }, []);
 
     return (
-        <p className="text-[#6f6f6f] font-semibold text-3xl tracking-wider font-sans">
+        <p className="text-[#6f6f6f] font-semibold text-xl sm:text-2xl md:text-3xl tracking-wider font-sans">
             {displayText}
         </p>
     );
@@ -196,25 +196,25 @@ const WalletGenerator = () => {
 
     if (!contentReady) {
         return (
-            <div className="relative min-h-screen py-8 z-10 overflow-hidden">
+            <div className="relative min-h-screen py-4 sm:py-8 z-10 overflow-hidden">
                 {isLoading && <LoadingAnimation />}
             </div>
         );
     }
 
     return (
-        <div className="relative min-h-screen py-8 z-10 overflow-hidden">
-            <div className="max-w-5xl mx-auto px-15">
-                <AnimatedSection delay={0} className="mb-10 text-center">
+        <div className="relative min-h-screen py-4 sm:py-8 z-10 overflow-hidden">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 lg:px-15">
+                <AnimatedSection delay={0} className="mb-6 sm:mb-10 text-center">
                     <ScrambleText />
                 </AnimatedSection>
 
                 {/* Mnemonic Section */}
                 <AnimatedSection delay={200}>
-                    <div className="bg-[#121212] rounded-xl border border-[#000] hover:border-[#2c2c2c] shadow-xl p-8 px-10 mb-10 transition-all duration-300 hover:shadow-2xl">
+                    <div className="bg-[#121212] rounded-xl border border-[#000] hover:border-[#2c2c2c] shadow-xl p-4 sm:p-6 md:p-8 md:px-10 mb-6 sm:mb-10 transition-all duration-300 hover:shadow-2xl">
                         <div className="flex flex-col md:flex-row items-center justify-between">
-                            <h2 className="text-2xl font-semibold text-[#e4e4e4] mb-4 md:mb-0">Recovery Phrase</h2>
-                            <div className="flex gap-3">
+                            <h2 className="text-xl sm:text-2xl font-semibold text-[#e4e4e4] mb-4 md:mb-0">Recovery Phrase</h2>
+                            <div className="flex gap-3 w-full md:w-auto justify-center md:justify-end">
                                 {!mnemonic ? (
                                     <GeneratePhraseButton text="Generate Phrase" onClick={createMnemonic} />
                                 ) : (
@@ -227,25 +227,25 @@ const WalletGenerator = () => {
                         </div>
 
                         {mnemonic && showMnemonic && (
-                            <div className="mt-6 border border-gray-800 rounded-xl p-6 bg-black transition-all duration-300 hover:border-gray-700">
-                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mb-6">
+                            <div className="mt-6 border border-gray-800 rounded-xl p-3 sm:p-4 md:p-6 bg-black transition-all duration-300 hover:border-gray-700">
+                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3 mb-4 sm:mb-6">
                                     {mnemonic.split(" ").map((word, index) => (
                                         <div
                                             key={index}
-                                            className="py-2.5 px-3 bg-[#1d1d1d] shadow-sm transition-all duration-200 hover:bg-gray-750"
+                                            className="py-2 sm:py-2.5 px-2 sm:px-3 bg-[#1d1d1d] shadow-sm transition-all duration-200 hover:bg-gray-750"
                                         >
-                                            <span className="text-gray-400 text-sm mr-2">{index + 1}.</span>
-                                            <span className="font-medium text-[#e4e4e4]">{word}</span>
+                                            <span className="text-gray-400 text-xs sm:text-sm mr-1 sm:mr-2">{index + 1}.</span>
+                                            <span className="font-medium text-[#e4e4e4] text-sm sm:text-base">{word}</span>
                                         </div>
                                     ))}
                                 </div>
 
                                 {/* mnemonic phrase display box */}
-                                <div className="flex justify-between">
-                                    <p className="flex justify-center items-center text-sm text-red-500">
+                                <div className="flex flex-col sm:flex-row justify-between">
+                                    <p className="flex justify-center sm:justify-start items-center text-xs sm:text-sm text-red-500 mb-3 sm:mb-0">
                                         Never share this mnemonic phrase with anyone!
                                     </p>
-                                    <div className="flex">
+                                    <div className="flex justify-center sm:justify-end">
                                         <CopyMnemonicButton
                                             onClick={() => handleCopy(mnemonic)}
                                             copyLogicBefore={copiedText === mnemonic ? "opacity-0" : ""}
@@ -264,28 +264,30 @@ const WalletGenerator = () => {
                     </div>
                 </AnimatedSection>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
                     {/* solana wallets */}
                     <AnimatedSection delay={400}>
-                        <div className="bg-[#151515] rounded-2xl shadow-xl border border-[#191919] p-8 transition-all duration-250 hover:shadow-2xl hover:border-[#2c2c2c]">
-                            <div className="flex items-center justify-between mb-8">
+                        <div className="bg-[#151515] rounded-xl sm:rounded-2xl shadow-xl border border-[#191919] p-4 sm:p-6 md:p-8 transition-all duration-250 hover:shadow-2xl hover:border-[#2c2c2c]">
+                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 sm:mb-8">
                                 <div>
-                                    <h2 className="text-2xl font-semibold text-[#e4e4e4]">Solana Wallets</h2>
-                                    <p className="text-gray-400 text-sm mt-1">SOL addresses and keys</p>
+                                    <h2 className="text-xl sm:text-2xl font-semibold text-[#e4e4e4]">Solana Wallets</h2>
+                                    <p className="text-gray-400 text-xs sm:text-sm mt-1">SOL addresses and keys</p>
                                 </div>
 
-                                <CreateSolWalletButton 
-                                    text="Create Wallet" 
-                                    onClick={createSolanaWallet} 
-                                    disabled={!mnemonic} 
-                                    logic={!mnemonic ? 'opacity-50 cursor-not-allowed' : ''} 
-                                />    
+                                <div className="mt-3 sm:mt-0 w-full sm:w-auto">
+                                    <CreateSolWalletButton 
+                                        text="Create Wallet" 
+                                        onClick={createSolanaWallet} 
+                                        disabled={!mnemonic} 
+                                        logic={!mnemonic ? 'opacity-50 cursor-not-allowed w-full sm:w-auto' : 'w-full sm:w-auto'} 
+                                    />    
+                                </div>
                             </div>
 
                             {solanaWallets.length > 0 && (
                                 <div className="mb-4">
                                     <div className="flex items-center justify-between">
-                                        <span className="text-sm text-gray-400">
+                                        <span className="text-xs sm:text-sm text-gray-400">
                                             {solanaWallets.length} wallet{solanaWallets.length > 1 ? 's' : ''} created
                                         </span>
 
@@ -296,7 +298,7 @@ const WalletGenerator = () => {
                                     </div>
 
                                     {showSolanaWallets && (
-                                        <div className="mt-6 space-y-5">
+                                        <div className="mt-4 sm:mt-6 space-y-4 sm:space-y-5">
                                             {solanaWallets.map((wallet, index) => (
                                                 <WalletCardComponent
                                                     key={index}
@@ -317,16 +319,16 @@ const WalletGenerator = () => {
                             )}
 
                             {solanaWallets.length === 0 && mnemonic && (
-                                <div className="text-center py-12 text-gray-400 rounded-xl bg-[#434343]">
-                                    <p className="text-[#b0b0b0]">No Solana wallets created yet.</p>
-                                    <p className="text-[15px] mt-1 text-[#56707c]">Click {"Create Wallet"} to get started.</p>
+                                <div className="text-center py-8 sm:py-12 text-gray-400 rounded-xl bg-[#434343]">
+                                    <p className="text-[#b0b0b0] text-sm sm:text-base">No Solana wallets created yet.</p>
+                                    <p className="text-xs sm:text-sm mt-1 text-[#56707c]">Click {"Create Wallet"} to get started.</p>
                                 </div>
                             )}
 
                             {!mnemonic && (
-                                <div className="text-center py-12 text-gray-400 border border-[#626262] rounded-xl bg-[#393939]">
-                                    <p>Generate a recovery phrase first</p>
-                                    <p className="text-[15px] mt-1 text-[#56707c]">to create Solana wallets.</p>
+                                <div className="text-center py-8 sm:py-12 text-gray-400 border border-[#626262] rounded-xl bg-[#393939]">
+                                    <p className="text-sm sm:text-base">Generate a recovery phrase first</p>
+                                    <p className="text-xs sm:text-sm mt-1 text-[#56707c]">to create Solana wallets.</p>
                                 </div>
                             )}
                         </div>
@@ -334,25 +336,27 @@ const WalletGenerator = () => {
 
                     {/* ethereum wallets */}
                     <AnimatedSection delay={600}>
-                        <div className="bg-[#151515] rounded-2xl shadow-xl border border-[#191919] p-8 transition-all duration-250 hover:shadow-2xl hover:border-[#2c2c2c]">
-                            <div className="flex items-center justify-between mb-8">
+                        <div className="bg-[#151515] rounded-xl sm:rounded-2xl shadow-xl border border-[#191919] p-4 sm:p-6 md:p-8 transition-all duration-250 hover:shadow-2xl hover:border-[#2c2c2c]">
+                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 sm:mb-8">
                                 <div>
-                                    <h2 className="text-2xl font-semibold text-[#e4e4e4]">Ethereum Wallets</h2>
-                                    <p className="text-gray-400 text-sm mt-1">ETH addresses and keys</p>
+                                    <h2 className="text-xl sm:text-2xl font-semibold text-[#e4e4e4]">Ethereum Wallets</h2>
+                                    <p className="text-gray-400 text-xs sm:text-sm mt-1">ETH addresses and keys</p>
                                 </div>
 
-                                <CreateSolWalletButton 
-                                    text="Create Wallet" 
-                                    onClick={createEthereumWallet} 
-                                    disabled={!mnemonic} 
-                                    logic={!mnemonic ? 'opacity-50 cursor-not-allowed' : ''} 
-                                />
+                                <div className="mt-3 sm:mt-0 w-full sm:w-auto">
+                                    <CreateSolWalletButton 
+                                        text="Create Wallet" 
+                                        onClick={createEthereumWallet} 
+                                        disabled={!mnemonic} 
+                                        logic={!mnemonic ? 'opacity-50 cursor-not-allowed w-full sm:w-auto' : 'w-full sm:w-auto'} 
+                                    />
+                                </div>
                             </div>
 
                             {ethereumWallets.length > 0 && (
                                 <div className="mb-4">
                                     <div className="flex items-center justify-between">
-                                        <span className="text-sm text-gray-400">
+                                        <span className="text-xs sm:text-sm text-gray-400">
                                             {ethereumWallets.length} wallet{ethereumWallets.length > 1 ? 's' : ''} created
                                         </span>
 
@@ -363,7 +367,7 @@ const WalletGenerator = () => {
                                     </div>
 
                                     {showEthereumWallets && (
-                                        <div className="mt-6 space-y-5">
+                                        <div className="mt-4 sm:mt-6 space-y-4 sm:space-y-5">
                                             {ethereumWallets.map((wallet, index) => (
                                                 <WalletCardComponent
                                                     key={index}
@@ -384,16 +388,16 @@ const WalletGenerator = () => {
                             )}
 
                             {ethereumWallets.length === 0 && mnemonic && (
-                                <div className="text-center py-12 text-gray-400 rounded-xl bg-[#434343]">
-                                    <p>No Ethereum wallets created yet.</p>
-                                    <p className="text-[15px] mt-2 text-[#56707c]">Click {"Create Wallet"} to get started.</p>
+                                <div className="text-center py-8 sm:py-12 text-gray-400 rounded-xl bg-[#434343]">
+                                    <p className="text-sm sm:text-base">No Ethereum wallets created yet.</p>
+                                    <p className="text-xs sm:text-sm mt-1 text-[#56707c]">Click {"Create Wallet"} to get started.</p>
                                 </div>
                             )}
 
                             {!mnemonic && (
-                                <div className="text-center py-12 text-gray-400 border border-[#626262] rounded-xl bg-[#393939]">
-                                    <p>Generate a recovery phrase first</p>
-                                    <p className="text-[15px] mt-1 text-[#56707c]">to create Ethereum wallets.</p>
+                                <div className="text-center py-8 sm:py-12 text-gray-400 border border-[#626262] rounded-xl bg-[#393939]">
+                                    <p className="text-sm sm:text-base">Generate a recovery phrase first</p>
+                                    <p className="text-xs sm:text-sm mt-1 text-[#56707c]">to create Ethereum wallets.</p>
                                 </div>
                             )}
                         </div>
@@ -401,8 +405,8 @@ const WalletGenerator = () => {
                 </div>
 
                 <AnimatedSection delay={800}>
-                    <div className="mt-10 text-center text-sm border-t border-gray-800 pt-8">
-                        <p className="mt-2 text-[18px] text-[#b7b7b7] transition-all transform duration-300">
+                    <div className="mt-6 sm:mt-10 text-center text-sm border-t border-gray-800 pt-6 sm:pt-8">
+                        <p className="mt-2 text-sm sm:text-base md:text-lg text-[#b7b7b7] transition-all transform duration-300">
                             Designed and Developed by <Link href="https://github.com/piyush-rj" className="hover:text-[#e4e4e4] transition-all transform duration-300">Piyush</Link>
                         </p>
                     </div>
