@@ -9,6 +9,8 @@ import { CreateSolWalletButton } from "./ui/CreateSolanaWalletButton";
 import Link from "next/link";
 import { RevealWalletsButton } from "./ui/RevealWalletsButton";
 import { ReactNode } from "react";
+import toast from "react-hot-toast";
+
 
 type AnimatedSectionProps = {
     children: ReactNode;
@@ -154,6 +156,7 @@ const WalletGenerator = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [contentReady, setContentReady] = useState(false);
 
+
     useEffect(() => {
         const loadingTimer = setTimeout(() => {
             setIsLoading(false);
@@ -170,6 +173,7 @@ const WalletGenerator = () => {
         navigator.clipboard.writeText(text);
         setCopiedText(text);
         setTimeout(() => setCopiedText(null), 2000);
+        toast.success("copied")
     };
 
     const handleDeleteMnemonic = () => {
@@ -179,6 +183,7 @@ const WalletGenerator = () => {
             setSolanaWallets([])
             setEthereumWallets([])
         }
+        toast.success("Mnemonic deleted")
     };
 
     const handleDeleteWallet = (
@@ -192,6 +197,7 @@ const WalletGenerator = () => {
                 setEthereumWallets(prev => prev.filter((_, i) => i !== index));
             }
         }
+        toast.success("Wallet deleted")
     };
 
     if (!contentReady) {
@@ -217,6 +223,7 @@ const WalletGenerator = () => {
                             <div className="flex gap-3 w-full md:w-auto justify-center md:justify-end">
                                 {!mnemonic ? (
                                     <GeneratePhraseButton text="Generate Phrase" onClick={createMnemonic} />
+                                    
                                 ) : (
                                     <GeneratePhraseButton
                                         onClick={() => setShowMnemonic(!showMnemonic)}

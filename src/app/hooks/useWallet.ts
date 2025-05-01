@@ -1,6 +1,7 @@
 "use client"
 import { useCallback, useEffect, useState } from "react";
 import { WalletGenerator, SolanaWallet, EthereumWallet } from "../lib/WalletGenerator";
+import toast from "react-hot-toast";
 
 export function useWalletGenerator() {
     const [walletGenerator, setWalletGenerator] = useState<WalletGenerator | null>(null)
@@ -22,6 +23,7 @@ export function useWalletGenerator() {
 
         await walletGenerator.init()
         setMnemonic(walletGenerator.getMnemonic())
+        toast.success("Mnemonic generated")
     }, [walletGenerator, mnemonic])
 
     const createSolanaWallet = () => {
@@ -29,6 +31,7 @@ export function useWalletGenerator() {
 
         const wallet = walletGenerator.solanaWallet();
         setSolanaWallets(prev => [...prev, wallet]);
+        toast.success("SOLANA wallet created")
         return wallet;
     }
 
@@ -37,6 +40,7 @@ export function useWalletGenerator() {
 
         const wallet = walletGenerator.ethereumWallet();
         setEthereumWallets(prev => [...prev, wallet]);
+        toast.success("ETHEREUM wallet created")
         return wallet;
     }
 
